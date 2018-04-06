@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HomeView from '../components/HomeView.vue'
 import DetailView from '../components/DetailView.vue'
 import PostView from '../components/PostView.vue'
+import CameraView from '../components/CameraView.vue'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/post',
       name: 'post',
       component: PostView
+    },
+    {
+      path: '/camera',
+      name: 'camera',
+      component: CameraView
     }
   ]
 })
