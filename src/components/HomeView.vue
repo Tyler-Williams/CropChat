@@ -25,7 +25,29 @@ export default {
   methods: {
     displayDetails (id) {
       this.$router.push({name: 'detail', params: {id: id}})
+    },
+    getCats () {
+      if (navigator.onLine) {
+        this.saveCatsToCache()
+        return this.$root.cat
+      } else {
+        return JSON.parse(localStorage.getItem('cats'))
+      }
+    },
+    saveCatsToCache () {
+      this.$root.$firebaseRefs.cat.orderByChild('created_at').once('value', (snapchot) => {
+        let cachedCats = []
+        snapchot.forEach(catSnapchot => {
+          let cachedCat = catSnapchot.val()
+          cachedCat['.key'] = snapchot.key
+          cachedCats.push(cachedCat)
+        })
+        localStorage.setItem('cats', JSON.stringify(cachedCats))
+      })
     }
+  },
+  mounted () {
+    this.saveCatsToCache()
   },
   data () {
     return {
